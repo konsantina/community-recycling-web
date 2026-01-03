@@ -1,0 +1,26 @@
+<h2>Login</h2>
+
+<form [formGroup]="form">
+  <div>
+    <label>Email</label><br />
+    <input type="email" formControlName="email" />
+    <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" style="color:red">
+      Βάλε σωστό email
+    </div>
+  </div>
+
+  <br />
+
+  <div>
+    <label>Password</label><br />
+    <input type="password" formControlName="password" />
+    <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" style="color:red">
+      Βάλε password
+    </div>
+  </div>
+
+  <br />
+  <button type="submit" (click)="login()">Login</button>
+</form>
+
+<div *ngIf="error" style="color:red; margin-top:10px">{{ error }}</div>
