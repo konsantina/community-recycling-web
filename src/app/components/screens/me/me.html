@@ -1,0 +1,53 @@
+<!-- HEADER -->
+<mat-toolbar color="primary" style="gap: 8px">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <span>Το Προφίλ μου</span>
+</mat-toolbar>
+
+<!-- CONTENT -->
+<div style="padding: 24px; max-width: 700px; margin: 0 auto">
+  <mat-card>
+    <mat-card-subtitle style="margin-bottom: 16px">
+      Στοιχεία λογαριασμού
+    </mat-card-subtitle>
+
+    <!-- Loading -->
+    <div *ngIf="loading" style="display:flex; justify-content:center; padding: 24px">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="!loading && error" style="color: red; padding: 12px">
+      {{ error }}
+    </div>
+
+    <!-- Data -->
+    <div *ngIf="!loading && !error && me" style="display: grid; gap: 16px">
+      <!-- Account -->
+      <div>
+        <div><b>Όνομα:</b> {{ me.displayName }}</div>
+        <div><b>Email:</b> {{ me.email }}</div>
+
+        <div style="display:flex; align-items:center; gap: 8px; margin-top: 8px">
+          <b>Ρόλος:</b>
+          <mat-chip selected>{{ me.role }}</mat-chip>
+        </div>
+
+        <div style="margin-top: 8px">
+          <b>Γειτονιά:</b> {{ me.neighborhoodName || '—' }}
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Gamification -->
+      <div>
+        <div><b>Συνολικοί Πόντοι:</b> {{ me.totalPoints ?? 0 }}</div>
+        <div><b>Level:</b> {{ me.level ?? 1 }}</div>
+      </div>
+    </div>
+  </mat-card>
+</div>

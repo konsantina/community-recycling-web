@@ -1,0 +1,61 @@
+<mat-sidenav-container style="height: 100vh">
+  <mat-sidenav mode="side" opened style="width: 260px">
+    <mat-toolbar>Menu</mat-toolbar>
+
+    <mat-nav-list>
+      <!-- USER -->
+      <a
+        mat-list-item
+        routerLink="/my-dropoffs"
+        routerLinkActive="active"
+        *ngIf="!isAdminOrModerator()"
+      >
+        <mat-icon matListItemIcon>recycling</mat-icon>
+        <span matListItemTitle>Οι Καταχωρήσεις μου</span>
+      </a>
+
+      <a
+        mat-list-item
+        routerLink="/dropoffs/new"
+        routerLinkActive="active"
+        *ngIf="!isAdminOrModerator()"
+      >
+        <mat-icon matListItemIcon>add</mat-icon>
+        <span matListItemTitle>Νέα Καταχώρηση</span>
+      </a>
+      <a mat-list-item routerLink="/me" routerLinkActive="active">
+        <mat-icon matListItemIcon>person</mat-icon>
+        <span matListItemTitle>Προφίλ</span>
+      </a>
+
+      <!-- ADMIN / MOD -->
+      <a
+        mat-list-item
+        routerLink="/admin/pending-dropoffs"
+        routerLinkActive="active"
+        *ngIf="isAdminOrModerator()"
+      >
+        <mat-icon matListItemIcon>fact_check</mat-icon>
+        <span matListItemTitle>Pending Dropoffs</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar style="display: flex; justify-content: space-between">
+      <div style="display: flex; align-items: center; gap: 10px">
+        <mat-icon>eco</mat-icon>
+        <span>Community Recycling</span>
+      </div>
+
+      <button mat-stroked-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </mat-toolbar>
+
+    <div class="recycle-bg">
+    <router-outlet></router-outlet>
+  </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

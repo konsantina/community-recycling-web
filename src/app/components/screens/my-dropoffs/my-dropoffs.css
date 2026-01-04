@@ -1,0 +1,24 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Αν το template σου έχει mat-card σαν outer wrapper */
+mat-card {
+  width: 100%;
+  max-width: none !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+/* Το table να πιάνει όλο το πλάτος */
+table {
+  width: 100%;
+}
+
+/* Αν έχεις outer div με style margin-top κλπ, το "ισιώνει" */
+.full-width {
+  width: 100%;
+  max-width: none !important;
+  margin: 0 !important;
+}
