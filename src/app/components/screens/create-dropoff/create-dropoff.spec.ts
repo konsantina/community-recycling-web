@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginComponent } from './login';
+import { CreateDropoff } from './create-dropoff';
 
-describe('Login', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('CreateDropoff', () => {
+  let component: CreateDropoff;
+  let fixture: ComponentFixture<CreateDropoff>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginComponent]
+      imports: [CreateDropoff]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(CreateDropoff);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

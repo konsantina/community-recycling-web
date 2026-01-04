@@ -1,26 +1,35 @@
-<h2>Login</h2>
+<div style="display:flex; justify-content:center; margin-top:80px;">
+  <mat-card style="width:360px;">
+    <mat-card-title>Login</mat-card-title>
 
-<form [formGroup]="form">
-  <div>
-    <label>Email</label><br />
-    <input type="email" formControlName="email" />
-    <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" style="color:red">
-      Βάλε σωστό email
-    </div>
-  </div>
+    <form [formGroup]="form">
+      <mat-form-field appearance="outline" style="width:100%; margin-top:16px;">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+        <mat-error *ngIf="form.get('email')?.invalid">
+          Βάλε σωστό email
+        </mat-error>
+      </mat-form-field>
 
-  <br />
+      <mat-form-field appearance="outline" style="width:100%;">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" />
+        <mat-error *ngIf="form.get('password')?.invalid">
+          Βάλε password
+        </mat-error>
+      </mat-form-field>
 
-  <div>
-    <label>Password</label><br />
-    <input type="password" formControlName="password" />
-    <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" style="color:red">
-      Βάλε password
-    </div>
-  </div>
+      <button
+        mat-raised-button
+        color="primary"
+        style="width:100%; margin-top:16px;"
+        type="submit" (click)="login()">
+        Login
+      </button>
+    </form>
 
-  <br />
-  <button type="submit" (click)="login()">Login</button>
-</form>
-
-<div *ngIf="error" style="color:red; margin-top:10px">{{ error }}</div>
+    <p *ngIf="error" style="color:red; margin-top:10px;">
+      {{ error }}
+    </p>
+  </mat-card>
+</div>

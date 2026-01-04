@@ -2,13 +2,21 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../services/auth';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,  MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule],
   templateUrl: './login.html'
 })
 
@@ -16,31 +24,40 @@ export class LoginComponent {
   form!: FormGroup;
   error = '';
 
-  constructor(private fb: FormBuilder,private auth: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder,private authService: AuthService, private router: Router,  private snack: MatSnackBar) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
 
-  login() {
-    const { email, password } = this.form.controls;
-    this.error = '';
+ login() {
+  if (this.form.invalid) return;
 
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
+  this.authService.login(
+    this.form.value.email,
+    this.form.value.password
+  ).subscribe({
+    next: (res) => {
 
-    this.auth.login(email.value, password.value).subscribe({
-      next: (res) => {
-        this.auth.saveToken(res.token);
-        this.router.navigateByUrl('/my-dropoffs');
-      },
-      error: (err) => {
-        this.error = err?.error || 'Login failed';
+      // 1️⃣ αποθήκευση token
+      this.authService.saveToken(res.token);
+
+      // 2️⃣ έλεγχος role
+      const isAdmin = this.authService.isAdmin();
+
+      // 3️⃣ redirect
+      if (isAdmin) {
+        this.router.navigate(['admin/pending-dropoffs']);
+      } else {
+        this.router.navigate(['/my-dropoffs']);
       }
-    });
-  }
+    },
+    error: () => {
+      this.snack.open('Λάθος στοιχεία σύνδεσης', 'OK', { duration: 3000 });
+    }
+  });
+}
+
   
 }

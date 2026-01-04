@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
+import { MyDropoffs } from '../components/screens/my-dropoffs/my-dropoffs';
 
-import { Dropoff } from './dropoff';
 
 describe('Dropoff', () => {
-  let service: Dropoff;
+  let service: MyDropoffs;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(Dropoff);
+    service = TestBed.inject(MyDropoffs);
   });
 
   it('should be created', () => {

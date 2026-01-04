@@ -1,1 +1,93 @@
-<p>my-dropoffs works!</p>
+<mat-card>
+  <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+    <div>
+      <mat-card-title>Οι Καταχωρήσεις μου</mat-card-title>
+      <mat-card-subtitle *ngIf="!loading && !error">
+        Σύνολο πόντων (εγκεκριμένα): <b>{{ totalPoints() }}</b>
+      </mat-card-subtitle>
+    </div>
+  </div>
+
+  <div *ngIf="loading" style="display: flex; justify-content: center; padding: 24px">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="!loading && error" style="color: red; padding: 12px">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && !error && items.length === 0" style="padding: 12px">
+    Δεν έχεις κάνει ακόμα καταχώρηση ανακύκλωσης.
+  </div>
+
+  <div *ngIf="!loading && !error && items.length > 0" style="margin-top: 12px">
+    <table mat-table [dataSource]="items" class="mat-elevation-z1" style="width: 100%">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>Κωδικός</th>
+        <td mat-cell *matCellDef="let d">{{ d.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="materialName">
+        <th mat-header-cell *matHeaderCellDef>Υλικό</th>
+        <td mat-cell *matCellDef="let d">{{ d.materialName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef>Ποσότητα</th>
+        <td mat-cell *matCellDef="let d">{{ d.quantity }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="unit">
+        <th mat-header-cell *matHeaderCellDef>Μονάδα</th>
+        <td mat-cell *matCellDef="let d">{{ unitLabel(d.unit) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Κατάσταση</th>
+        <td mat-cell *matCellDef="let d">
+          <mat-chip [color]="statusChipColor(d.status)" selected>
+            {{ statusLabel(d.status) }}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="pointsAwarded">
+        <th mat-header-cell *matHeaderCellDef>Πόντοι</th>
+        <td mat-cell *matCellDef="let d">
+          {{ pointsLabel(d.pointsAwarded, d.status) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>Ημερομηνία</th>
+        <td mat-cell *matCellDef="let d">{{ d.createdAt | date : 'short' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Ενέργειες</th>
+        <td mat-cell *matCellDef="let x">
+          <button mat-stroked-button (click)="edit(x)" [disabled]="!canEditOrDelete(x.status)">
+            Edit
+          </button>
+
+          <button
+            mat-stroked-button
+            color="warn"
+            (click)="remove(x)"
+            [disabled]="!canEditOrDelete(x.status)"
+            style="margin-left: 8px"
+          >
+            Delete
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</mat-card>
+<br />
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+  <a mat-raised-button color="primary" routerLink="/dropoffs/new"> Νέα Καταχώρηση </a>
+</div>

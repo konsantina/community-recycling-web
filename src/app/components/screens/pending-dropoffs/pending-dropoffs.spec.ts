@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginComponent } from './login';
+import { PendingDropoffs } from './pending-dropoffs';
 
-describe('Login', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('PendingDropoffs', () => {
+  let component: PendingDropoffs;
+  let fixture: ComponentFixture<PendingDropoffs>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginComponent]
+      imports: [PendingDropoffs]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(PendingDropoffs);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

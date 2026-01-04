@@ -1,0 +1,57 @@
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+<div style="padding: 16px;">
+  <mat-card class="mat-elevation-z2" style="max-width: 720px; margin: 0 auto;">
+    <mat-card-title>Επεξεργασία Καταχώρησης</mat-card-title>
+
+    <mat-card-content style="margin-top: 12px;">
+      <form [formGroup]="form" style="display: grid; gap: 12px;">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Υλικό</mat-label>
+          <mat-select formControlName="materialId">
+            <mat-option *ngFor="let m of materials" [value]="m.id">
+              {{ m.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Γειτονιά</mat-label>
+          <mat-select formControlName="neighborhoodId">
+            <mat-option *ngFor="let n of neighborhoods" [value]="n.id">
+              {{ n.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Ποσότητα</mat-label>
+          <input matInput type="number" formControlName="quantity" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Μονάδα</mat-label>
+          <mat-select formControlName="unit">
+            <mat-option *ngFor="let u of units" [value]="u.value">
+              {{ u.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Τοποθεσία</mat-label>
+          <input matInput formControlName="location" />
+        </mat-form-field>
+
+        <div style="display:flex; gap: 10px; justify-content: flex-end; margin-top: 8px;">
+          <button mat-button type="button" (click)="cancel()" [disabled]="saving">Άκυρο</button>
+          <button mat-raised-button color="primary" type="button" (click)="save()" [disabled]="saving">
+            {{ saving ? '...' : 'Αποθήκευση' }}
+          </button>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
