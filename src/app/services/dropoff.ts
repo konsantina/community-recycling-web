@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from './auth';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../enviroments/enviroment';
 
 export type DropoffListItem = {
@@ -22,7 +21,6 @@ export type DropoffListItem = {
 };
 
 export type DropoffCreateDto = {
-  userId: number;
   materialId: number;
   neighborhoodId: number;
   quantity: number;
@@ -42,54 +40,37 @@ export type DropoffUpdateDto = {
 export class DropoffService {
   private base = `${environment.apiUrl}/dropoff`;
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   my() {
-    return this.http.get<DropoffListItem[]>(`${this.base}/my`, { headers: this.headers() });
+    return this.http.get<DropoffListItem[]>(`${this.base}/my`);
   }
 
   create(dto: DropoffCreateDto) {
-    return this.http.post<any>(this.base, dto, { headers: this.headers() });
+    return this.http.post<any>(this.base, dto);
   }
 
   pending() {
-    return this.http.get<any[]>(`${this.base}/pending`, { headers: this.headers() });
+    return this.http.get<any[]>(`${this.base}/pending`);
   }
 
   verify(id: number) {
-    return this.http.post(`${this.base}/${id}/verify`, {}, { headers: this.headers() });
+    return this.http.post(`${this.base}/${id}/verify`, {});
   }
 
   reject(id: number) {
-    return this.http.post(
-      `${this.base}/${id}/reject`,
-      { verifierUserId: 0 },
-      { headers: this.headers() }
-    );
-  }
-
-  private headers(): HttpHeaders {
-    const token = this.auth.getToken();
-
-    let headers = new HttpHeaders();
-
-    if (token) {
-      headers = headers.set('Authorization', `Bearer ${token}`);
-    }
-
-    return headers;
+    return this.http.post(`${this.base}/${id}/reject`, {});
   }
 
   update(id: number, dto: DropoffUpdateDto) {
-    return this.http.put(`${this.base}/${id}`, dto, { headers: this.headers() });
+    return this.http.put(`${this.base}/${id}`, dto);
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.base}/${id}`, { headers: this.headers() });
+    return this.http.delete(`${this.base}/${id}`);
   }
 
-  // ✅ για να φορτώσουμε ένα dropoff by id (ιδανικό)
   getById(id: number) {
-    return this.http.get<DropoffListItem>(`${this.base}/${id}`, { headers: this.headers() });
+    return this.http.get<DropoffListItem>(`${this.base}/${id}`);
   }
 }

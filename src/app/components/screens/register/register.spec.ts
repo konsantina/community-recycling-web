@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EditDropoffComponent } from './edit-dropoff';
 
-describe('EditDropoff', () => {
-  let component: EditDropoffComponent;
-  let fixture: ComponentFixture<EditDropoffComponent>;
+import { Register } from './register';
+
+describe('Register', () => {
+  let component: Register;
+  let fixture: ComponentFixture<Register>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditDropoffComponent]
+      imports: [Register]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EditDropoffComponent);
+    fixture = TestBed.createComponent(Register);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PendingDropoffs } from './pending-dropoffs';
+import { PendingDropoffsComponent } from './pending-dropoffs';
 
 describe('PendingDropoffs', () => {
-  let component: PendingDropoffs;
-  let fixture: ComponentFixture<PendingDropoffs>;
+  let component: PendingDropoffsComponent;
+  let fixture: ComponentFixture<PendingDropoffsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PendingDropoffs]
+      imports: [PendingDropoffsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PendingDropoffs);
+    fixture = TestBed.createComponent(PendingDropoffsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

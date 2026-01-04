@@ -1,0 +1,90 @@
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+<div style="padding: 16px; display: flex; justify-content: center">
+  <mat-card class="mat-elevation-z2" style="width: 100%; max-width: 520px">
+    <mat-card-title>Εγγραφή</mat-card-title>
+    <mat-card-subtitle>Δημιούργησε νέο λογαριασμό</mat-card-subtitle>
+
+    <mat-card-content style="margin-top: 12px">
+      <form [formGroup]="form" style="display: grid; gap: 12px">
+        <mat-form-field appearance="outline">
+          <mat-label>Όνομα εμφάνισης</mat-label>
+          <input matInput formControlName="displayName" autocomplete="name" />
+          <mat-error
+            *ngIf="
+              form.get('displayName')?.touched && form.get('displayName')?.hasError('required')
+            "
+          >
+            Το όνομα εμφάνισης είναι υποχρεωτικό.
+          </mat-error>
+          <mat-error
+            *ngIf="
+              form.get('displayName')?.touched && form.get('displayName')?.hasError('minlength')
+            "
+          >
+            Βάλε τουλάχιστον 2 χαρακτήρες.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email" autocomplete="email" />
+          <mat-error *ngIf="emailCtrl?.touched && emailCtrl?.hasError('required')">
+            Το email είναι υποχρεωτικό.
+          </mat-error>
+          <mat-error *ngIf="emailCtrl?.touched && emailCtrl?.hasError('email')">
+            Βάλε έγκυρο email.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Κωδικός</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            [type]="hidePass ? 'password' : 'text'"
+            autocomplete="new-password"
+          />
+          <mat-error *ngIf="passwordCtrl?.touched && passwordCtrl?.hasError('required')">
+            Ο κωδικός είναι υποχρεωτικός.
+          </mat-error>
+          <mat-error *ngIf="passwordCtrl?.touched && passwordCtrl?.hasError('minlength')">
+            Ο κωδικός πρέπει να έχει τουλάχιστον 6 χαρακτήρες.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Επιβεβαίωση Κωδικού</mat-label>
+          <input
+            matInput
+            formControlName="confirmPassword"
+            [type]="hideConfirm ? 'password' : 'text'"
+            autocomplete="new-password"
+          />
+          <mat-error
+            *ngIf="confirmPasswordCtrl?.touched && confirmPasswordCtrl?.hasError('required')"
+          >
+            Η επιβεβαίωση είναι υποχρεωτική.
+          </mat-error>
+        </mat-form-field>
+
+        <div *ngIf="passwordMismatch" style="color: #d32f2f; font-size: 13px">
+          Οι κωδικοί δεν ταιριάζουν.
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px">
+          <a mat-button routerLink="/login" [disabled]="loading">Έχω ήδη λογαριασμό</a>
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="submit()"
+            [disabled]="loading"
+          >
+            {{ loading ? '...' : 'Register' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

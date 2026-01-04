@@ -40,14 +40,8 @@ export class LoginComponent {
   ).subscribe({
     next: (res) => {
 
-      // 1️⃣ αποθήκευση token
       this.authService.saveToken(res.token);
-
-      // 2️⃣ έλεγχος role
-      const isAdmin = this.authService.isAdmin();
-
-      // 3️⃣ redirect
-      if (isAdmin) {
+      if (this.authService.isAdmin() || this.authService.isModerator?.()) {
         this.router.navigate(['admin/pending-dropoffs']);
       } else {
         this.router.navigate(['/my-dropoffs']);

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../enviroments/enviroment';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -12,13 +13,8 @@ export class AuthService {
     return this.http.post<any>(`${this.base}/login`, { email, password });
   }
 
-  register(displayName: string, email: string, password: string, neighborhoodId: number) {
-    return this.http.post<any>(`${this.base}/register`, {
-      displayName,
-      email,
-      password,
-      neighborhoodId,
-    });
+  register(dto: RegisterRequest): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.base}/register`, dto);
   }
 
   saveToken(token: string) {
@@ -77,4 +73,43 @@ export class AuthService {
 
     return atob(base64);
   }
+  
+  isModerator(): boolean {
+  return this.hasRole('Moderator');
 }
+
+private hasRole(role: string): boolean {
+  const token = this.getToken();
+  if (!token) return false;
+
+  const payload = this.getPayload(token);
+  if (!payload) return false;
+
+  // 1) ASP.NET Core συνήθως βάζει αυτό το claim
+  const schemaRole = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+  // 2) Κάποιες φορές υπάρχει και απλό "role"
+  const simpleRole = payload['role'];
+
+  // Μπορεί να είναι string ή array
+  const roles = ([] as string[])
+    .concat(schemaRole ?? [])
+    .concat(simpleRole ?? []);
+
+  return roles.includes(role);
+}
+
+}
+
+export type RegisterRequest = {
+  email: string;
+  password: string;
+  displayName: string; // ✅ required από backend
+};
+
+
+export type RegisterResponse = {
+  // βάλε ό,τι επιστρέφει το backend σου (π.χ. message, userId)
+  token: string;
+  message?: string;
+};
