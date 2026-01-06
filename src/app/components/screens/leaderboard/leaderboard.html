@@ -1,0 +1,70 @@
+<mat-toolbar color="primary" style="gap: 8px">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <span>Το Προφίλ μου</span>
+</mat-toolbar>
+
+<mat-card class="page">
+  <div class="header">
+    <h2>Πίνακας Κατάταξης</h2>
+    <p>Κατάταξη χρηστών βάσει συνολικών πόντων.</p>
+  </div>
+
+  <div class="center" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="error" *ngIf="!loading && errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="empty" *ngIf="!loading && !errorMessage && dataSource.data.length === 0">
+    Δεν υπάρχουν δεδομένα ακόμα.
+  </div>
+
+  <div class="table-wrap" *ngIf="!loading && !errorMessage && dataSource.data.length > 0">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <!-- Rank -->
+      <ng-container matColumnDef="rank">
+        <th mat-header-cell *matHeaderCellDef>Θέση</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="rank">
+            <span class="medal" *ngIf="medal(row.rank) as m">{{ m }}</span>
+            {{ row.rank }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- User -->
+      <ng-container matColumnDef="displayName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Χρήστης</th>
+        <td mat-cell *matCellDef="let row">{{ row.displayName }}</td>
+      </ng-container>
+
+      <!-- Neighborhood -->
+      <ng-container matColumnDef="neighborhoodName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Γειτονιά</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip>{{ row.neighborhoodName }}</mat-chip>
+        </td>
+      </ng-container>
+
+      <!-- Points -->
+      <ng-container matColumnDef="totalPoints">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Πόντοι</th>
+        <td mat-cell *matCellDef="let row"><strong>{{ row.totalPoints }}</strong></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [ngClass]="rowClass(row.rank)"
+      ></tr>
+    </table>
+  </div>
+</mat-card>

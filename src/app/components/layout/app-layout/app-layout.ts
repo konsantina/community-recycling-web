@@ -27,7 +27,11 @@ import { AuthService } from '../../../services/auth'; // άλλαξε path αν 
   styleUrl: './app-layout.css'
 })
 export class AppLayoutComponent {
-  constructor(public auth: AuthService, private router: Router) {}
+  isLoggedIn: boolean = false;
+  constructor(public auth: AuthService, private router: Router) {
+    this.isLoggedIn = this.auth.isLoggedIn();
+  }
+  
 
   isAdminOrModerator(): boolean {
     return this.auth.isAdmin() || this.auth.isModerator();

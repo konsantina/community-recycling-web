@@ -73,32 +73,33 @@ export class AuthService {
 
     return atob(base64);
   }
-  
+
   isModerator(): boolean {
-  return this.hasRole('Moderator');
-}
+    return this.hasRole('Moderator');
+  }
 
-private hasRole(role: string): boolean {
-  const token = this.getToken();
-  if (!token) return false;
+  private hasRole(role: string): boolean {
+    const token = this.getToken();
+    if (!token) return false;
 
-  const payload = this.getPayload(token);
-  if (!payload) return false;
+    const payload = this.getPayload(token);
+    if (!payload) return false;
 
-  // 1) ASP.NET Core συνήθως βάζει αυτό το claim
-  const schemaRole = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+    // 1) ASP.NET Core συνήθως βάζει αυτό το claim
+    const schemaRole = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
-  // 2) Κάποιες φορές υπάρχει και απλό "role"
-  const simpleRole = payload['role'];
+    // 2) Κάποιες φορές υπάρχει και απλό "role"
+    const simpleRole = payload['role'];
 
-  // Μπορεί να είναι string ή array
-  const roles = ([] as string[])
-    .concat(schemaRole ?? [])
-    .concat(simpleRole ?? []);
+    // Μπορεί να είναι string ή array
+    const roles = ([] as string[]).concat(schemaRole ?? []).concat(simpleRole ?? []);
 
-  return roles.includes(role);
-}
+    return roles.includes(role);
+  }
 
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
 }
 
 export type RegisterRequest = {
@@ -106,7 +107,6 @@ export type RegisterRequest = {
   password: string;
   displayName: string; // ✅ required από backend
 };
-
 
 export type RegisterResponse = {
   // βάλε ό,τι επιστρέφει το backend σου (π.χ. message, userId)

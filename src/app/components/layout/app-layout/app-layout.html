@@ -28,6 +28,11 @@
         <span matListItemTitle>Προφίλ</span>
       </a>
 
+      <a *ngIf="isLoggedIn" mat-list-item routerLink="/leaderboard">
+        <mat-icon>emoji_events</mat-icon>
+        Πίνακας Κατάταξης
+      </a>
+
       <!-- ADMIN / MOD -->
       <a
         mat-list-item
@@ -55,7 +60,7 @@
     </mat-toolbar>
 
     <div class="recycle-bg">
-    <router-outlet></router-outlet>
-  </div>
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

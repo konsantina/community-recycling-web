@@ -1,0 +1,19 @@
+.page { padding: 16px; }
+
+.header {
+  margin-bottom: 12px;
+  h2 { margin: 0; }
+  p { margin: 4px 0 0 0; opacity: 0.8; }
+}
+
+.center { display: flex; justify-content: center; padding: 24px 0; }
+.table-wrap { overflow: auto; }
+
+.rank { display: inline-flex; align-items: center; gap: 8px; }
+.medal { font-size: 18px; }
+
+.top1 td { font-weight: 700; }
+.top2 td { font-weight: 600; }
+.top3 td { font-weight: 600; }
+
+.error, .empty { padding: 16px; border-radius: 12px; }

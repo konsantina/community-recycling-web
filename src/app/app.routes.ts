@@ -41,5 +41,10 @@ export const routes: Routes = [
     ],
   },
   { path: 'me', component: MeComponent, canActivate: [authGuard] },
+  {
+    path: 'leaderboard',
+    loadComponent: () =>
+      import('./components/screens/leaderboard/leaderboard').then((m) => m.LeaderboardComponent),
+  },
   { path: '**', redirectTo: 'login' },
 ];

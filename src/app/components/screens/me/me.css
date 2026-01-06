@@ -1,0 +1,87 @@
+.section-title {
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  padding: 14px 0;
+}
+
+.error, .empty {
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 16px;
+}
+
+.locked {
+  opacity: 0.55;
+}
+
+
+.badge-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin: 0 auto 10px auto;
+  display: block;
+}
+
+.badge-progress {
+  margin-top: 10px;
+}
+
+.badge-progress-text {
+  font-size: 12px;
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+
+.badge-card {
+  border-radius: 18px;
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.badge-card.unlocked {
+  background: linear-gradient(135deg, #fff7e6, #ffffff);
+  border: 2px solid #f5c06b;
+}
+
+.badge-card.locked {
+  opacity: 0.5;
+}
+
+.badge-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.badge-icon mat-icon {
+  font-size: 48px;
+  color: #f5a623;
+}
+
+.badge-title {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.badge-status {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #388e3c;
+}
+
+.badge-count {
+  font-size: 12px;
+  opacity: 0.6;
+}
+

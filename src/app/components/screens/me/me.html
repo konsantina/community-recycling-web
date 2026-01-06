@@ -10,43 +10,102 @@
 <!-- CONTENT -->
 <div style="padding: 24px; max-width: 700px; margin: 0 auto">
   <mat-card>
-    <mat-card-subtitle style="margin-bottom: 16px">
-      Στοιχεία λογαριασμού
-    </mat-card-subtitle>
+    <mat-card-subtitle style="margin-bottom: 16px"> Στοιχεία λογαριασμού </mat-card-subtitle>
 
-    <!-- Loading -->
-    <div *ngIf="loading" style="display:flex; justify-content:center; padding: 24px">
+    <!-- Loading (Profile) -->
+    <div *ngIf="loading" style="display: flex; justify-content: center; padding: 24px">
       <mat-spinner></mat-spinner>
     </div>
 
-    <!-- Error -->
+    <!-- Error (Profile) -->
     <div *ngIf="!loading && error" style="color: red; padding: 12px">
       {{ error }}
     </div>
 
-    <!-- Data -->
-    <div *ngIf="!loading && !error && me" style="display: grid; gap: 16px">
+    <!-- Data (Profile + Badges) -->
+    <div *ngIf="!loading && !error && me as vm" style="display: grid; gap: 16px">
       <!-- Account -->
       <div>
-        <div><b>Όνομα:</b> {{ me.displayName }}</div>
-        <div><b>Email:</b> {{ me.email }}</div>
+        <div><b>Όνομα:</b> {{ vm.displayName }}</div>
+        <div><b>Email:</b> {{ vm.email }}</div>
 
-        <div style="display:flex; align-items:center; gap: 8px; margin-top: 8px">
+        <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px">
           <b>Ρόλος:</b>
-          <mat-chip selected>{{ me.role }}</mat-chip>
+          <mat-chip selected>{{ vm.role }}</mat-chip>
         </div>
 
-        <div style="margin-top: 8px">
-          <b>Γειτονιά:</b> {{ me.neighborhoodName || '—' }}
-        </div>
+        <div style="margin-top: 8px"><b>Γειτονιά:</b> {{ vm.neighborhoodName || '—' }}</div>
       </div>
 
       <mat-divider></mat-divider>
 
       <!-- Gamification -->
       <div>
-        <div><b>Συνολικοί Πόντοι:</b> {{ me.totalPoints ?? 0 }}</div>
-        <div><b>Level:</b> {{ me.level ?? 1 }}</div>
+        <div><b>Συνολικοί Πόντοι:</b> {{ vm.totalPoints ?? 0 }}</div>
+        <div><b>Level:</b> {{ vm.level ?? 1 }}</div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Badges -->
+      <div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+          "
+        >
+          <b>Διακρίσεις</b>
+          <span class="badge-count"
+            >{{ badges.length }} badge{{ badges.length > 1 ? 's' : '' }}</span
+          >
+        </div>
+
+        <!-- Loading (Badges) -->
+        <div *ngIf="badgesLoading" style="display: flex; justify-content: center; padding: 12px 0">
+          <mat-spinner diameter="28"></mat-spinner>
+        </div>
+
+        <!-- Error (Badges) -->
+        <div *ngIf="!badgesLoading && badgesError" style="color: red; padding: 8px 0">
+          {{ badgesError }}
+        </div>
+
+        <!-- Empty (Badges) -->
+        <div
+          *ngIf="!badgesLoading && !badgesError && (!badges || badges.length === 0)"
+          style="opacity: 0.8; padding: 8px 0"
+        >
+          Δεν υπάρχουν badges ακόμα.
+        </div>
+
+        <!-- Grid -->
+        <div
+          *ngIf="!badgesLoading && !badgesError && badges && badges.length > 0"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 12px;
+          "
+        >
+          <mat-card
+            *ngFor="let b of badges"
+            class="badge-card"
+            [class.unlocked]="b.unlocked"
+            [class.locked]="!b.unlocked"
+            matTooltip="{{ b.description }}"
+          >
+            <div class="badge-icon">
+              <mat-icon>emoji_events</mat-icon>
+            </div>
+
+            <div class="badge-title">{{ b.name }}</div>
+
+            <div class="badge-status" *ngIf="b.unlocked">🏆 Ξεκλειδώθηκε</div>
+          </mat-card>
+        </div>
       </div>
     </div>
   </mat-card>

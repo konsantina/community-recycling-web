@@ -14,7 +14,11 @@ mat-sidenav-content {
   background-color: #f4fbf6;
 
   background-image: url("/can-recycle-svgrepo-com.svg");
-  background-repeat: no-repeat;      /* ΜΟΝΟ ΜΙΑ ΦΟΡΑ */
-  background-size: contain;          /* ✅ ΔΕΝ ΚΟΒΕΤΑΙ */
-  background-position: center 60%;   /* λίγο πιο κάτω από toolbar */
+  background-repeat: no-repeat;
+  background-size: contain;  
+  background-position: center 60%; 
+}
+
+.active-link {
+  font-weight: 700;
 }
