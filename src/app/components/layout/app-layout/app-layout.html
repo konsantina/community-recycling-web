@@ -1,9 +1,9 @@
 <mat-sidenav-container style="height: 100vh">
   <mat-sidenav mode="side" opened style="width: 260px">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar>Μενού</mat-toolbar>
 
     <mat-nav-list>
-      <!-- USER -->
+      <!-- ΧΡΗΣΤΗΣ -->
       <a
         mat-list-item
         routerLink="/my-dropoffs"
@@ -23,17 +23,61 @@
         <mat-icon matListItemIcon>add</mat-icon>
         <span matListItemTitle>Νέα Καταχώρηση</span>
       </a>
+
       <a mat-list-item routerLink="/me" routerLinkActive="active">
         <mat-icon matListItemIcon>person</mat-icon>
         <span matListItemTitle>Προφίλ</span>
       </a>
 
-      <a *ngIf="isLoggedIn" mat-list-item routerLink="/leaderboard">
-        <mat-icon>emoji_events</mat-icon>
-        Πίνακας Κατάταξης
+      <a *ngIf="isLoggedIn" mat-list-item routerLink="/leaderboard" routerLinkActive="active">
+        <mat-icon matListItemIcon>emoji_events</mat-icon>
+        <span matListItemTitle>Πίνακας Κατάταξης</span>
       </a>
 
-      <!-- ADMIN / MOD -->
+      <a *ngIf="isLoggedIn" mat-list-item routerLink="/rewards" routerLinkActive="active">
+        <mat-icon matListItemIcon>redeem</mat-icon>
+        <span matListItemTitle>Ανταμοιβές</span>
+      </a>
+
+      <a *ngIf="isLoggedIn" mat-list-item routerLink="/my-redemptions" routerLinkActive="active">
+        <mat-icon matListItemIcon>history</mat-icon>
+        <span matListItemTitle>Οι Εξαργυρώσεις μου</span>
+      </a>
+
+      <!-- ΔΙΑΧΩΡΙΣΤΗΣ -->
+      <mat-divider></mat-divider>
+
+      <!-- ΔΙΑΧΕΙΡΙΣΗ (ADMIN / MOD) -->
+      <a
+        *ngIf="isAdminOrModerator()"
+        mat-list-item
+        routerLink="/admin/rewards"
+        routerLinkActive="active"
+      >
+        <mat-icon matListItemIcon>list</mat-icon>
+        <span matListItemTitle>Διαχείριση Ανταμοιβών</span>
+      </a>
+
+      <a
+        *ngIf="isAdminOrModerator()"
+        mat-list-item
+        routerLink="/admin/rewards/new"
+        routerLinkActive="active"
+      >
+        <mat-icon matListItemIcon>add_box</mat-icon>
+        <span matListItemTitle>Νέα Ανταμοιβή</span>
+      </a>
+
+      <a
+        *ngIf="isAdminOrModerator()"
+        mat-list-item
+        routerLink="/admin/redemptions"
+        routerLinkActive="active"
+      >
+        <mat-icon matListItemIcon>assignment</mat-icon>
+        <span matListItemTitle>Αιτήματα Εξαργύρωσης</span>
+      </a>
+
       <a
         mat-list-item
         routerLink="/admin/pending-dropoffs"
@@ -41,7 +85,7 @@
         *ngIf="isAdminOrModerator()"
       >
         <mat-icon matListItemIcon>fact_check</mat-icon>
-        <span matListItemTitle>Pending Dropoffs</span>
+        <span matListItemTitle>Εκκρεμείς Καταχωρήσεις</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
@@ -50,12 +94,12 @@
     <mat-toolbar style="display: flex; justify-content: space-between">
       <div style="display: flex; align-items: center; gap: 10px">
         <mat-icon>eco</mat-icon>
-        <span>Community Recycling</span>
+        <span>Κοινοτική Ανακύκλωση</span>
       </div>
 
       <button mat-stroked-button (click)="logout()">
         <mat-icon>logout</mat-icon>
-        Logout
+        Αποσύνδεση
       </button>
     </mat-toolbar>
 

@@ -1,0 +1,91 @@
+<mat-toolbar color="primary" style="gap: 8px">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <span>Το Προφίλ μου</span>
+</mat-toolbar>
+<div class="page">
+  <div class="header">
+    <div>
+      <h1>Νέο Reward</h1>
+      <p class="subtitle">Δημιούργησε reward για εξαργύρωση πόντων.</p>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="grid">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Τίτλος</mat-label>
+        <input matInput formControlName="title" />
+        <mat-error *ngIf="form.get('title')?.hasError('required')">Απαιτείται τίτλος</mat-error>
+        <mat-error *ngIf="form.get('title')?.hasError('maxlength')">Μέχρι 100 χαρακτήρες</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Περιγραφή</mat-label>
+        <textarea matInput rows="3" formControlName="description"></textarea>
+        <mat-hint align="end">{{ form.value.description?.length ?? 0 }}/300</mat-hint>
+        <mat-error *ngIf="form.get('description')?.hasError('maxlength')"
+          >Μέχρι 300 χαρακτήρες</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Κόστος Πόντων</mat-label>
+        <input matInput type="number" formControlName="costPoints" />
+        <mat-error *ngIf="form.get('costPoints')?.hasError('required')">Απαιτείται</mat-error>
+        <mat-error *ngIf="form.get('costPoints')?.hasError('min')"
+          >Δεν γίνεται κάτω από 0</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Stock *</mat-label>
+        <input matInput type="number" formControlName="stock" min="0" />
+
+        <mat-error *ngIf="form.controls['stock']?.hasError('required')">
+          Το stock είναι υποχρεωτικό
+        </mat-error>
+
+        <mat-error *ngIf="form.controls['stock']?.hasError('min')">
+          Το stock δεν μπορεί να είναι αρνητικό
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Valid From</mat-label>
+        <input matInput [matDatepicker]="fromPicker" formControlName="validFrom" />
+        <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Valid To</mat-label>
+        <input matInput [matDatepicker]="toPicker" formControlName="validTo" />
+        <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Terms URL</mat-label>
+        <input matInput formControlName="termsUrl" />
+        <mat-error *ngIf="form.get('termsUrl')?.hasError('maxlength')"
+          >Μέχρι 200 χαρακτήρες</mat-error
+        >
+      </mat-form-field>
+
+      <mat-checkbox formControlName="isActive">Active</mat-checkbox>
+    </div>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="saving">
+        <mat-icon>save</mat-icon>
+        <span *ngIf="!saving">Δημιουργία</span>
+        <span *ngIf="saving">Αποθήκευση…</span>
+      </button>
+    </div>
+  </form>
+</div>

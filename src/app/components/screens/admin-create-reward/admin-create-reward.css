@@ -1,0 +1,16 @@
+.page { padding: 16px; }
+.header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.subtitle { margin: 4px 0 0 0; opacity: .8; }
+
+.form { margin-top: 16px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 12px;
+}
+.full { grid-column: 1 / -1; }
+
+.actions { margin-top: 12px; display:flex; justify-content:flex-end; }
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+}

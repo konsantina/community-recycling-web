@@ -1,0 +1,80 @@
+<mat-toolbar color="primary" style="gap: 8px">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <span>Το Προφίλ μου</span>
+</mat-toolbar>
+<div class="page">
+  <div class="header">
+    <div>
+      <h1>Rewards</h1>
+      <p class="subtitle">Διάλεξε reward και κάνε εξαργύρωση με τους πόντους σου.</p>
+    </div>
+
+    <button mat-stroked-button (click)="loadRewards()">
+      <mat-icon>refresh</mat-icon>
+      Ανανέωση
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="center" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="empty" *ngIf="!loading && rewards.length === 0">
+    <mat-icon class="empty-icon">redeem</mat-icon>
+    <h2>Δεν υπάρχουν rewards ακόμα</h2>
+    <p>Όταν μπουν rewards στη βάση, θα εμφανιστούν εδώ.</p>
+  </div>
+
+  <div class="grid" *ngIf="!loading && rewards.length > 0">
+    <mat-card class="reward-card" *ngFor="let r of rewards; trackBy: trackById">
+  <mat-card-header>
+    <mat-card-title>{{ r.title }}</mat-card-title>
+
+    <mat-card-subtitle *ngIf="r.costPoints != null">
+      Κόστος: <b>{{ r.costPoints }}</b> πόντοι
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <!-- STATUS + STOCK -->
+  <mat-chip-set class="chips">
+    <mat-chip class="chip" [ngClass]="getStatusClass(r)" selected>
+      {{ getStatusLabel(r) }}
+    </mat-chip>
+
+    <mat-chip class="chip chip-stock" *ngIf="getStockLabel(r) as stockLbl" selected>
+      {{ stockLbl }}
+    </mat-chip>
+  </mat-chip-set>
+
+  <mat-card-content>
+    <p class="desc" *ngIf="r.description; else noDesc">{{ r.description }}</p>
+    <ng-template #noDesc>
+      <p class="desc muted">Χωρίς περιγραφή.</p>
+    </ng-template>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="redeem(r)"
+      [disabled]="!canRedeem(r)"
+      class="redeem-btn"
+      [ngClass]="{
+        redeemed: isRedeemed(r.id),
+        disabled: !canRedeem(r) && !isRedeemed(r.id)
+      }"
+    >
+      <mat-icon>{{ getButtonIcon(r) }}</mat-icon>
+      <span>{{ getButtonLabel(r) }}</span>
+    </button>
+  </mat-card-actions>
+</mat-card>
+
+  </div>
+</div>

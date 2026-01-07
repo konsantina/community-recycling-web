@@ -1,0 +1,108 @@
+<mat-toolbar color="primary" style="gap: 8px">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <span>Το Προφίλ μου</span>
+</mat-toolbar>
+<div class="page">
+  <div class="header">
+    <div>
+      <h1>Οι Εξαργυρώσεις μου</h1>
+      <p class="subtitle">Παρακολούθησε την κατάσταση των αιτημάτων σου.</p>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- ✅ MY POINTS (Wallet) -->
+  <div class="points" *ngIf="wallet">
+    <mat-card class="points-card">
+      <mat-card-header>
+        <mat-card-title>Οι Πόντοι μου</mat-card-title>
+        <mat-card-subtitle>Σύνοψη</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="points-grid">
+          <div class="pbox">
+            <div class="plabel">Διαθέσιμοι</div>
+            <div class="pvalue">{{ wallet.availablePoints }}</div>
+          </div>
+
+          <div class="pbox">
+            <div class="plabel">Κερδισμένοι</div>
+            <div class="pvalue">{{ wallet.earnedTotal }}</div>
+          </div>
+
+          <div class="pbox">
+            <div class="plabel">Ξοδεμένοι</div>
+            <div class="pvalue">{{ wallet.spentTotal }}</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- ✅ Ledger (προαιρετικό) -->
+  <div class="ledger" *ngIf="ledger?.length">
+    <mat-card class="ledger-card">
+      <mat-card-header>
+        <mat-card-title>Ιστορικό Πόντων</mat-card-title>
+        <mat-card-subtitle>Τελευταίες κινήσεις</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="ledger-row" *ngFor="let l of ledger">
+          <div class="l-left">
+            <div class="l-reason">{{ reasonLabel(l.reason) }}</div>
+            <div class="l-date">{{ formatDate(l.createdAt) }}</div>
+          </div>
+
+          <mat-chip class="l-chip" [ngClass]="l.amount >= 0 ? 'plus' : 'minus'">
+            {{ l.amount >= 0 ? '+' : '' }}{{ l.amount }}
+          </mat-chip>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Loading -->
+  <div class="center" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Empty redemptions -->
+  <div class="empty" *ngIf="!loading && items.length === 0">
+    <mat-icon class="empty-icon">history</mat-icon>
+    <h2>Δεν έχεις εξαργυρώσεις ακόμα</h2>
+    <p>Πήγαινε στα Rewards και κάνε την πρώτη σου εξαργύρωση.</p>
+  </div>
+
+  <!-- Redemptions list -->
+  <div class="list" *ngIf="!loading && items.length > 0">
+    <mat-card class="item" *ngFor="let x of items">
+      <mat-card-header>
+        <mat-card-title>Reward #{{ x.rewardId }}</mat-card-title>
+        <mat-card-subtitle>{{ formatDate(x.createdAt) }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="row">
+          <span>Κατάσταση:</span>
+          <mat-chip class="chip" [ngClass]="chipClass(x.status)">{{ statusLabel(x.status) }}</mat-chip>
+        </div>
+
+        <div class="row" *ngIf="x.costSnapshot != null">
+          <span>Κόστος:</span>
+          <b>{{ x.costSnapshot }}</b>
+        </div>
+
+        <div class="row" *ngIf="x.code">
+          <span>Code:</span>
+          <b>{{ x.code }}</b>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

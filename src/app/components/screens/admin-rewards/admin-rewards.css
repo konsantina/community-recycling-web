@@ -1,0 +1,23 @@
+.page { padding: 16px; }
+.header { padding: 16px 0; }
+.subtitle { opacity: 0.8; }
+
+.center { padding: 24px; display: flex; justify-content: center; }
+.empty { padding: 28px; text-align: center; opacity: 0.9; }
+.empty-icon { font-size: 40px; width: 40px; height: 40px; opacity: 0.7; }
+
+.tableWrap { padding-top: 12px; overflow-x: auto; }
+.fullTable { width: 100%; min-width: 900px; }
+
+.titleCell .t { font-weight: 700; }
+.titleCell .d { opacity: 0.75; font-size: 13px; margin-top: 2px; }
+
+.actions { display: flex; gap: 8px; justify-content: flex-end; }
+.muted { opacity: 0.75; }
+
+.chip { font-weight: 700; }
+.st-active { background: #d1e7dd; }
+.st-inactive { background: #e2e3e5; }
+.st-out { background: #fff3cd; }
+.st-expired { background: #f8d7da; }
+.st-soon { background: #cfe2ff; }
