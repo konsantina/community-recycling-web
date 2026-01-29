@@ -1,59 +1,176 @@
-# CommunityRecyclingWeb
+# Community Recycling Gamified Platform
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+Community Recycling Gamified is a web application that encourages recycling through a gamification system based on points, badges, and redeemable rewards.  
+The platform follows a clear role-based architecture, separating responsibilities and access between Users and Admins.
 
-## Development server
+---
 
-To start a local development server, run:
+## User Roles
 
-```bash
-ng serve
-```
+The application supports the following roles:
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- User – end user who earns points, unlocks badges, and redeems rewards
+- Admin – platform administrator with full management permissions
 
-## Code scaffolding
+Each role has access to different routes, UI elements, and backend operations.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+## Demo Credentials
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The following demo accounts are available for testing and evaluation.
 
-```bash
-ng generate --help
-```
+Admin accounts:
+- Email: test@gmail.com  
+  Password: 123
 
-## Building
+- Email: takis@gmail.com  
+  Password: 123
 
-To build the project run:
+User account:
+- Email: user@gmail.com  
+  Password: 123
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## User Role – Navigation and Features
 
-## Running unit tests
+The User interacts with the core gamification functionality of the platform.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Dashboard  
+Route: /dashboard  
+Displays total available points, unlocked badges, and recent activity.  
+Backend endpoints:  
+GET /api/points/me  
+GET /api/badges/me  
 
-```bash
-ng test
-```
+Rewards  
+Route: /rewards  
+Displays all available rewards, their point cost, and a Redeem button that is enabled only when the user has enough points.  
+Backend endpoint:  
+GET /api/rewards  
 
-## Running end-to-end tests
+Reward Redemption Flow  
+1. The user navigates to the Rewards page  
+2. Selects a reward and clicks Redeem  
+3. A redemption request is created  
+4. The request status is set to Pending  
+5. Points are not deducted immediately  
+Backend endpoint:  
+POST /api/redemptions  
 
-For end-to-end (e2e) testing, run:
+My Redemptions  
+Route: /my-redemptions  
+Displays all redemptions created by the user with their current status (Pending, Approved, Rejected).  
+Backend endpoint:  
+GET /api/redemptions/me  
 
-```bash
-ng e2e
-```
+Points Ledger  
+Route: /points-ledger  
+Shows the complete history of point changes with date and action description.  
+Backend endpoint:  
+GET /api/points/ledger/me  
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Badges  
+Route: /my-badges  
+Displays all available badges, unlocked status, and progress where applicable.  
+Backend endpoint:  
+GET /api/badges/me  
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Admin Role – Navigation and Features
+
+The Admin has full control over the platform configuration and user actions.
+
+Admin Dashboard  
+Route: /admin  
+
+Rewards Management  
+Routes:  
+/admin/rewards  
+/admin/rewards/create  
+/admin/rewards/edit/:id  
+
+Admins can create, edit, and delete rewards.  
+Backend endpoints:  
+POST /api/rewards  
+PUT /api/rewards/{id}  
+DELETE /api/rewards/{id}  
+
+Pending Redemptions  
+Route: /admin/redemptions/pending  
+Displays all pending redemption requests submitted by users.  
+Backend endpoint:  
+GET /api/redemptions/pending  
+
+Approve / Reject Redemption  
+Admins can approve or reject redemption requests.  
+If approved, points are deducted and the points ledger is updated.  
+If rejected, no points are deducted.  
+Backend endpoints:  
+POST /api/redemptions/{id}/approve  
+POST /api/redemptions/{id}/reject  
+
+---
+
+## Route Access Matrix
+
+/dashboard – User ✔ Admin ✔  
+/rewards – User ✔ Admin ✔  
+/my-redemptions – User ✔ Admin ✖  
+/points-ledger – User ✔ Admin ✖  
+/my-badges – User ✔ Admin ✖  
+/admin – User ✖ Admin ✔  
+/admin/rewards – User ✖ Admin ✔  
+/admin/redemptions/pending – User ✖ Admin ✔  
+
+---
+
+## How to Run the Project
+
+Backend (.NET)
+
+Navigate to the backend directory and run:
+dotnet restore  
+dotnet run  
+
+The backend API runs at:
+https://localhost:5001
+
+Frontend (Angular)
+
+Navigate to the frontend directory and run:
+npm install  
+npm start  
+
+or, if using Angular CLI:
+npm install  
+ng serve  
+
+The frontend application will be available at:
+http://localhost:4200
+
+---
+
+## Authentication and Authorization
+
+The application uses JWT-based authentication.  
+Tokens are stored on the client.  
+Role-based route guards are applied on the frontend and role checks are enforced in backend controllers.
+
+---
+
+## Technologies Used
+
+Backend:
+ASP.NET Core, Entity Framework Core, REST API, JWT Authentication
+
+Frontend:
+Angular, Route Guards, Role-based UI Rendering
+
+---
+
+## Conclusion
+
+Community Recycling Gamified provides a complete gamified recycling experience with clear role separation, controlled reward redemption workflows, and full traceability of user actions and points.
