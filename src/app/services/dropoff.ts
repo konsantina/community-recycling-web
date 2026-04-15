@@ -39,7 +39,6 @@ export type DropoffUpdateDto = {
 @Injectable({ providedIn: 'root' })
 export class DropoffService {
   private base = `${environment.apiUrl}/dropoff`;
-
   constructor(private http: HttpClient) {}
 
   my() {

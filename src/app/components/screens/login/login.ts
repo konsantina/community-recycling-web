@@ -23,6 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class LoginComponent {
   form!: FormGroup;
   error = '';
+  role: string | null = null;
 
   constructor(private fb: FormBuilder,private authService: AuthService, private router: Router,  private snack: MatSnackBar) {
     this.form = this.fb.group({
@@ -39,7 +40,7 @@ export class LoginComponent {
     this.form.value.password
   ).subscribe({
     next: (res) => {
-
+      this.role = res.role;
       this.authService.saveToken(res.token);
       if (this.authService.isAdmin() || this.authService.isModerator?.()) {
         this.router.navigate(['admin/pending-dropoffs']);

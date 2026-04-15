@@ -16,7 +16,7 @@ import { ConfirmDialogComponent } from '../../shared/navbar/confirm-dialog';
 @Component({
   selector: 'app-my-dropoffs',
   standalone: true,
-  imports: [
+  imports: [  //Εδώ λες ποια modules χρειάζεται το HTML του component.Aν το HTML έχει *ngIf, χρειάζεται CommonModule, αν έχει πίνακα χρειάζεται MatTableModule κλπ.
     CommonModule,
     MatCardModule,
     MatTableModule,
