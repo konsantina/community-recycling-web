@@ -2,7 +2,7 @@
   <mat-card style="width:520px;">
     <mat-card-title>Νέα Καταχώρηση Ανακύκλωσης</mat-card-title>
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form [formGroup]="form">
 
       <mat-form-field appearance="outline" style="width:100%; margin-top:16px;">
         <mat-label>Υλικό</mat-label>
@@ -47,7 +47,7 @@
         <mat-error *ngIf="form.get('location')?.invalid">Βάλε τοποθεσία</mat-error>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" style="width:100%; margin-top:12px;" type="submit" [disabled]="loading">
+      <button mat-raised-button color="primary" style="width:100%; margin-top:12px;" type="submit" [disabled]="loading" (click)="submit()">
         {{ loading ? 'Αποθήκευση...' : 'Καταχώρηση' }}
       </button>
 
